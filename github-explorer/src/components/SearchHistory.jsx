@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function SearchHistory() {
-  const [history, setHistory] =
-    useState([]);
+  const [history, setHistory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem("searchHistory") || "[]"); }
+    catch { return []; }
+  });
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const saved =
-      localStorage.getItem(
-        "searchHistory"
-      );
-
-    if (saved) {
-      setHistory(JSON.parse(saved));
-    }
-  }, []);
 
   const clearHistory = () => {
     localStorage.removeItem(
@@ -24,6 +15,12 @@ function SearchHistory() {
     );
 
     setHistory([]);
+  };
+
+  const removeSearch = (username) => {
+    const next = history.filter((item) => item !== username);
+    localStorage.setItem("searchHistory", JSON.stringify(next));
+    setHistory(next);
   };
 
   if (history.length === 0) {
@@ -37,23 +34,17 @@ function SearchHistory() {
         <h3>Recent Searches</h3>
 
         <button onClick={clearHistory}>
-          Clear
+          Clear all
         </button>
       </div>
 
       <div className="history-list">
 
         {history.map((username) => (
-          <button
-            key={username}
-            onClick={() =>
-              navigate(
-                `/user/${username}`
-              )
-            }
-          >
-            {username}
-          </button>
+          <span className="history-chip" key={username}>
+            <button className="history-user" onClick={() => navigate(`/user/${username}`)}>{username}</button>
+            <button className="history-remove" onClick={() => removeSearch(username)} aria-label={`Remove ${username} from recent searches`}>x</button>
+          </span>
         ))}
 
       </div>

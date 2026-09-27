@@ -1,4 +1,4 @@
-import {
+﻿import {
   useDispatch,
   useSelector,
 } from "react-redux";
@@ -33,6 +33,7 @@ function ProfileCard({ user }) {
     }
   };
 
+
   return (
     <section className="profile-card">
 
@@ -55,6 +56,12 @@ function ProfileCard({ user }) {
         {user.bio && (
           <p>{user.bio}</p>
         )}
+
+        <div className="profile-meta">
+          {user.location && <span>⌖ {user.location}</span>}
+          {user.company && <span>▧ {user.company}</span>}
+          {user.blog && <a href={user.blog.startsWith("http") ? user.blog : `https://${user.blog}`} target="_blank" rel="noreferrer">↗ {user.blog}</a>}
+        </div>
 
         <div className="stats">
 
@@ -102,11 +109,13 @@ function ProfileCard({ user }) {
 
           <button
             onClick={handleFavourite}
+            aria-pressed={isFavourite}
           >
             {isFavourite
-              ? "★ Remove Favourite"
-              : "☆ Add Favourite"}
+              ? "Remove favourite"
+              : "Add to favourites"}
           </button>
+
 
         </div>
 

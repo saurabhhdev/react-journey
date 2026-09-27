@@ -92,8 +92,9 @@ function Compare() {
     <main className="compare-page">
 
       <h1>
-        Compare GitHub Users
+        Compare Developers
       </h1>
+      <p className="page-subtitle">Explore how two GitHub profiles differ.</p>
 
       <form
         className="compare-form"
@@ -126,11 +127,7 @@ function Compare() {
 
       </form>
 
-      {loading && (
-        <p className="status">
-          Comparing...
-        </p>
-      )}
+      {loading && <div className="skeleton-grid"><i /><i /></div>}
 
       {error && (
         <p className="error">
@@ -140,6 +137,7 @@ function Compare() {
 
       {user1 && user2 && (
 
+        <>
         <div className="comparison">
 
           <CompareCard
@@ -155,11 +153,25 @@ function Compare() {
           />
 
         </div>
+        <CompareBreakdown users={[user1, user2]} />
+        </>
 
       )}
 
     </main>
   );
+}
+
+function CompareBreakdown({ users }) {
+  const metrics = [
+    ["Followers", "followers"],
+    ["Following", "following"],
+    ["Repositories", "public_repos"],
+  ];
+  return <section className="compare-breakdown"><h2>Profile comparison</h2>{metrics.map(([label, key]) => {
+    const max = Math.max(1, users[0][key] || 0, users[1][key] || 0);
+    return <div className="compare-metric" key={key}><div className="compare-metric-label">{label}</div>{users.map((user) => <div className="compare-meter" key={user.login}><span>{user.login}</span><i><b style={{ width: `${((user[key] || 0) / max) * 100}%` }} /></i><strong>{(user[key] || 0).toLocaleString()}</strong></div>)}</div>;
+  })}</section>;
 }
 
 function CompareCard({

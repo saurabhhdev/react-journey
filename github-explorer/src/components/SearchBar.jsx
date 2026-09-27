@@ -26,9 +26,14 @@ function SearchBar() {
       className="search-box"
       onSubmit={handleSubmit}
     >
+      <svg className="search-icon" viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="8.5" cy="8.5" r="5.5" />
+        <path d="m13 13 4 4" />
+      </svg>
       <input
         type="text"
-        placeholder="Enter GitHub username..."
+        placeholder="Search a GitHub username..."
+        aria-label="GitHub username"
         value={username}
         onChange={(e) =>
           setUsername(e.target.value)
@@ -36,7 +41,7 @@ function SearchBar() {
       />
 
       <button type="submit">
-        Search
+        Explore
       </button>
     </form>
   );

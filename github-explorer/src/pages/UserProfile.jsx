@@ -33,6 +33,7 @@ function User() {
   const [sort, setSort] =
     useState("stars");
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -121,12 +122,7 @@ function User() {
 
   if (loading) {
     return (
-      <div className="status">
-        <h2>Loading...</h2>
-        <p>
-          Fetching GitHub profile.
-        </p>
-      </div>
+      <main className="user-page"><div className="profile-skeleton"><span /><div><i /><i /><i /></div></div><div className="skeleton-grid"><i /><i /><i /></div></main>
     );
   }
 
@@ -184,14 +180,15 @@ function User() {
           );
         }
 
-        if (sort === "name") {
-          return a.name.localeCompare(
-            b.name
-          );
-        }
+        if (sort === "updated") return new Date(b.updated_at) - new Date(a.updated_at);
+        if (sort === "created") return new Date(b.created_at) - new Date(a.created_at);
+        if (sort === "name-asc") return a.name.localeCompare(b.name);
+        if (sort === "name-desc") return b.name.localeCompare(a.name);
 
         return 0;
       });
+
+  const availableLanguages = [...new Set(repos.map((repo) => repo.language).filter(Boolean))].sort();
 
   return (
     <main className="user-page">
@@ -233,25 +230,7 @@ function User() {
                 All Languages
               </option>
 
-              <option value="JavaScript">
-                JavaScript
-              </option>
-
-              <option value="TypeScript">
-                TypeScript
-              </option>
-
-              <option value="Python">
-                Python
-              </option>
-
-              <option value="Java">
-                Java
-              </option>
-
-              <option value="C++">
-                C++
-              </option>
+              {availableLanguages.map((item) => <option key={item} value={item}>{item}</option>)}
             </select>
 
             <select
@@ -270,9 +249,10 @@ function User() {
                 Most Forks
               </option>
 
-              <option value="name">
-                Name
-              </option>
+              <option value="updated">Recently Updated</option>
+              <option value="created">Recently Created</option>
+              <option value="name-asc">Name A–Z</option>
+              <option value="name-desc">Name Z–A</option>
             </select>
 
           </div>

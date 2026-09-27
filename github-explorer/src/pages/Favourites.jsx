@@ -1,4 +1,4 @@
-import {
+﻿import {
   useDispatch,
   useSelector,
 } from "react-redux";
@@ -23,15 +23,14 @@ function Favourites() {
     return (
       <main className="empty-page">
 
-        <h1>
-          No Favourites Yet ⭐
-        </h1>
+        <h1>Your radar is empty.</h1>
 
         <p>
           Search for a GitHub user
           and add them to your
           favourites.
         </p>
+        <Link className="empty-cta" to="/">Explore Developers</Link>
 
       </main>
     );
@@ -40,9 +39,8 @@ function Favourites() {
   return (
     <main className="favourites-page">
 
-      <h1>
-        Favourite Developers
-      </h1>
+      <h1>Your Developer Radar</h1>
+      <p className="page-subtitle">Profiles you’ve saved for later.</p>
 
       <div className="favourites-grid">
 
@@ -67,6 +65,8 @@ function Favourites() {
                 {user.name ||
                   "GitHub Developer"}
               </p>
+              {user.bio && <p className="favourite-bio">{user.bio}</p>}
+              <div className="favourite-stats"><span>{user.followers?.toLocaleString() || 0} followers</span><span>{user.public_repos || 0} repositories</span></div>
 
               <div className="favourite-actions">
 
@@ -78,11 +78,7 @@ function Favourites() {
 
                 <button
                   onClick={() =>
-                    dispatch(
-                      removeFavourite(
-                        user.login
-                      )
-                    )
+                    dispatch(removeFavourite(user.login))
                   }
                 >
                   Remove

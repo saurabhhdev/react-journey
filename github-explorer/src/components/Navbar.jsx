@@ -1,25 +1,27 @@
-import { Link } from "react-router-dom";
-import "./Navbar.css";
+import { Link, NavLink } from "react-router-dom";
+import NexhubLogo from "./NexhubLogo";
 
 function Navbar() {
   return (
     <nav className="navbar">
 
-      <Link to="/" className="logo">
-        🧑‍💻 GitHub Explorer
+      <Link to="/" className="logo" aria-label="Nexhub home">
+        <NexhubLogo size="sm" glow className="navbar-mark" />
+        <span>Nexhub</span>
       </Link>
 
       <div className="nav-links">
-        <Link to="/">Home</Link>
+        <NavLink to="/" end>Home</NavLink>
 
-        <Link to="/compare">
+        <NavLink to="/compare">
           Compare
-        </Link>
+        </NavLink>
 
-        <Link to="/favourites">
+        <NavLink to="/favourites">
           Favourites
-        </Link>
+        </NavLink>
       </div>
+
 
     </nav>
   );

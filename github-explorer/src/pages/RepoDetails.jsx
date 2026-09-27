@@ -19,6 +19,7 @@ function RepoDetails() {
 
   const [error, setError] =
     useState("");
+  const [retryKey, setRetryKey] = useState(0);
 
   useEffect(() => {
 
@@ -54,13 +55,11 @@ function RepoDetails() {
 
     fetchRepo();
 
-  }, [username, repoName]);
+  }, [username, repoName, retryKey]);
 
   if (loading) {
     return (
-      <div className="status">
-        Loading repository...
-      </div>
+      <main className="repo-details"><div className="skeleton-title" /><div className="skeleton-copy" /><div className="skeleton-grid"><i /><i /><i /><i /></div></main>
     );
   }
 
@@ -68,12 +67,15 @@ function RepoDetails() {
     return (
       <div className="status error">
         {error}
+        <div className="error-actions"><button onClick={() => setRetryKey((key) => key + 1)}>Try again</button><a href={`/user/${username}`}>Back to profile</a></div>
       </div>
     );
   }
 
   return (
     <main className="repo-details">
+
+      <div className="repo-owner"><img src={repo.owner.avatar_url} alt="" /><span>Owned by <a href={`/user/${username}`}>{repo.owner.login}</a></span></div>
 
       <h1>{repo.name}</h1>
 
@@ -101,7 +103,6 @@ function RepoDetails() {
           </strong>
 
           <span>
-            ⭐{" "}
             {repo.stargazers_count}
           </span>
         </div>
@@ -112,7 +113,6 @@ function RepoDetails() {
           </strong>
 
           <span>
-            🍴{" "}
             {repo.forks_count}
           </span>
         </div>
@@ -146,6 +146,7 @@ function RepoDetails() {
             {repo.default_branch}
           </span>
         </div>
+
 
       </div>
 

@@ -7,7 +7,7 @@ function NotFound() {
       <h1>404</h1>
 
       <h2>
-        Page Not Found
+        This route does not exist.
       </h2>
 
       <p>
@@ -16,7 +16,7 @@ function NotFound() {
       </p>
 
       <Link to="/">
-        Go Home
+        Back to Nexhub
       </Link>
 
     </main>
