@@ -1,0 +1,17 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexhub</title>
+  </head>
+  <body>
+    <script>
+      const base = "/react-journey";
+      const route = location.pathname.startsWith(base)
+        ? location.pathname.slice(base.length) + location.search + location.hash
+        : location.pathname + location.search + location.hash;
+      location.replace(base + "/?p=" + encodeURIComponent(route));
+    </script>
+  </body>
+</html>
